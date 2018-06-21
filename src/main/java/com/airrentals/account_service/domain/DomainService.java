@@ -1,11 +1,15 @@
 package com.airrentals.account_service.domain;
 
-import com.airrentals.account_service.model.Member;
+import com.airrentals.account_service.model.Profile;
 import com.airrentals.account_service.repository.MemberRepository;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
+@Log4j2
 public class DomainService {
 
     private final MemberRepository memberRepository;
@@ -15,8 +19,11 @@ public class DomainService {
         this.memberRepository = memberRepository;
     }
 
-    public Member addMember(Member member) {
-        // probably want a factory/protoype?
-        return memberRepository.save(member);
+    public void addMember(Profile member) {
+        memberRepository.save(member);
+    }
+
+    public Optional<Profile> getMember(String id) {
+        return memberRepository.findById(Long.parseLong(id));
     }
 }
