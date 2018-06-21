@@ -1,6 +1,9 @@
 package com.airrentals.account_service.model;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.Entity;
@@ -10,16 +13,18 @@ import javax.persistence.Id;
 
 @ToString
 @Entity
+@JsonRootName(value = "member")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Member {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    @JsonValue
     private Long id;
-    @JsonValue
+    @JsonProperty
     private String firstName;
-    @JsonValue
+    @JsonProperty
     private String lastName;
-    @JsonValue
+    @JsonProperty
     private String emailAddress;
 }

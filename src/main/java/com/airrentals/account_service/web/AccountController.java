@@ -20,10 +20,11 @@ public class AccountController {
         this.objectMapper = objectMapper;
     }
 
-    @PutMapping("/addMember")
-    public String addMember(@RequestBody String member) throws IOException {
+    @PostMapping("/addMember")
+    public Member addMember(@RequestBody String member) throws IOException {
+        log.info("Request body: {}", member);
         Member mapped = objectMapper.readValue(member, Member.class);
-        log.info("Member: ", member);
+        log.info("Member: {}", mapped);
         return domainService.addMember(mapped);
     }
 }

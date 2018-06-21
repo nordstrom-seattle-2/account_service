@@ -15,9 +15,8 @@ public class DomainService {
         this.memberRepository = memberRepository;
     }
 
-    public String addMember(Member member) {
+    public Member addMember(Member member) {
         // probably want a factory/protoype?
-        Member saved = memberRepository.save(member);
-        return saved.toString();
+        return memberRepository.save(member);
     }
 }
