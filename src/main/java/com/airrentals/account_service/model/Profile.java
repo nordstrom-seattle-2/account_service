@@ -1,32 +1,31 @@
 package com.airrentals.account_service.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+import org.axonframework.commandhandling.CommandHandler;
+import org.axonframework.commandhandling.model.AggregateIdentifier;
+import org.axonframework.eventsourcing.EventSourcingHandler;
+import org.axonframework.spring.stereotype.Aggregate;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import static org.axonframework.commandhandling.model.AggregateLifecycle.apply;
 
-@ToString
-@AllArgsConstructor
+@Aggregate
 @NoArgsConstructor
-@Getter
-@Entity
 public class Profile {
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private Long id;
-    @JsonProperty
-    private String firstName;
-    @JsonProperty
-    private String lastName;
-    @JsonProperty
-    private String emailAddress;
-    @JsonProperty
-    private String password;
+    @AggregateIdentifier
+    public String profileId;
+
+    @CommandHandler
+    public Profile(AddProfileCommand addProfileCommand) {
+        apply(new ProfileAddedEvent(addProfileCommand.getId(),
+                addProfileCommand.getFirstName(),
+                addProfileCommand.getLastName(),
+                addProfileCommand.getEmailAddress(),
+                addProfileCommand.getPassword()));
+    }
+
+    @EventSourcingHandler
+    public void on(ProfileAddedEvent profileAddedEvent) {
+        this.profileId = profileAddedEvent.getId();
+    }
 }
