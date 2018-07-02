@@ -32,7 +32,7 @@ public class MemberApi {
     }
 
     @PostMapping
-    public CompletableFuture<Object> addProfile(@RequestBody Map<String, String> request) {
+    public CompletableFuture<String> addProfile(@RequestBody Map<String, String> request) {
         String id = UUID.randomUUID().toString();
         return commandGateway.send(new AddProfileCommand(id,
                 request.get("firstName"),

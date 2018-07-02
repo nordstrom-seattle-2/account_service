@@ -19,6 +19,7 @@ public class Profile {
 
     @CommandHandler
     public Profile(AddProfileCommand addProfileCommand) {
+        //TODO: add validations here (assert)
         apply(new ProfileAddedEvent(addProfileCommand.getId(),
                 addProfileCommand.getFirstName(),
                 addProfileCommand.getLastName(),
@@ -26,6 +27,7 @@ public class Profile {
                 addProfileCommand.getPassword()));
     }
 
+    //rehydrates state 
     @EventSourcingHandler
     public void on(ProfileAddedEvent profileAddedEvent) {
         log.info("Set id on event");
